@@ -1,0 +1,80 @@
+A executer en deux parties dans la base de donnees VisBD;
+Partie 1: Creation des tables:
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT;
+SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS;
+SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION;
+SET NAMES utf8mb4;
+
+CREATE TABLE productions (
+  id int(11) NOT NULL,
+  usine_id int(11) DEFAULT NULL,
+  produit varchar(100) DEFAULT NULL,
+  quantite decimal(12,2) DEFAULT NULL,
+  unite varchar(20) DEFAULT NULL,
+  date_prod date DEFAULT NULL,
+  saisi_le datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE usines (
+  id int(11) NOT NULL,
+  nom varchar(100) DEFAULT NULL,
+  region varchar(100) DEFAULT NULL,
+  secteur varchar(50) DEFAULT NULL,
+  user_id int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE utilisateurs (
+  id int(11) NOT NULL,
+  entreprise varchar(100) DEFAULT NULL,
+  prenom varchar(50) DEFAULT NULL,
+  nom varchar(50) DEFAULT NULL,
+  email varchar(100) NOT NULL,
+  mot_de_passe varchar(255) NOT NULL,
+  role enum('usine','analyste','admin') DEFAULT 'usine',
+  secteur varchar(50) DEFAULT NULL,
+  date_creation datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+Partie 2: Importation de donnees et modifications:
+
+INSERT INTO utilisateurs (id, entreprise, prenom, nom, email, mot_de_passe, role, secteur, date_creation) VALUES
+(8, 'ADMIN', 'ADMIN', 'ADMIN', 'ADMIN@gmail.com', '$2y$10$MT8LNjOPj08W6rTLMws8P.vFcfxYrgmitFYK5z0O5bLqVMBqyiJ9S', 'admin', 'autre', '2026-04-29 21:44:36');
+
+ALTER TABLE productions
+  ADD PRIMARY KEY (id),
+  ADD KEY usine_id (usine_id);
+
+ALTER TABLE usines
+  ADD PRIMARY KEY (id),
+  ADD KEY user_id (user_id);
+
+ALTER TABLE utilisateurs
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY email (email),
+  ADD UNIQUE KEY email_2 (email),
+  ADD UNIQUE KEY email_3 (email);
+
+ALTER TABLE productions
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=633;
+ALTER TABLE usines
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+ALTER TABLE utilisateurs
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+
+ALTER TABLE productions
+  ADD CONSTRAINT productions_ibfk_1 FOREIGN KEY (usine_id) REFERENCES usines (id);
+
+
+ALTER TABLE usines
+  ADD CONSTRAINT usines_ibfk_1 FOREIGN KEY (user_id) REFERENCES utilisateurs (id);
