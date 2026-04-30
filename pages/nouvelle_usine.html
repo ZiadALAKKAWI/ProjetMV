@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Nouvelle Usine</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+            <div class="header-actions">
+                <nav class="primary-nav">
+                    <a href="saisie.html">Saisie</a>
+                    <a href="nouvelle_usine.html">Mes Usines</a>
+                </nav>
+                <div class="auth-section">
+                    <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="saisie.html">Saisie</a>
+        <a href="nouvelle_usine.html">Mes Usines</a>
+        <div class="mobile-nav-auth">
+            <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="registration-section">
+            <div class="registration-header">
+                <h2>Enregistrer une usine</h2>
+                <p>Ajoutez une usine à votre compte pour pouvoir saisir sa production.</p>
+            </div>
+
+            <div class="registration-container">
+                <form class="registration-form" id="usine-form" action="../php/insert_usine.php" method="POST">
+                    <h3>Nouvelle usine</h3>
+
+                    <div class="form-group">
+                        <label for="nom">Nom de l'usine</label>
+                        <input type="text" id="nom" name="nom" required placeholder="Ex: Usine Renault Nord">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region">Région</label>
+                        <input type="text" id="region" name="region" required placeholder="Ex: Île-de-France">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secteur">Secteur</label>
+                        <select id="secteur" name="secteur" required>
+                            <option value="">Sélectionnez un secteur</option>
+                            <option value="transport">Transport et Logistique</option>
+                            <option value="production">Production Industrielle</option>
+                            <option value="distribution">Distribution et Retail</option>
+                            <option value="pharmacie">Pharmacie et Santé</option>
+                            <option value="agroalimentaire">Agroalimentaire</option>
+                            <option value="energie">Énergie et Utilities</option>
+                            <option value="autre">Autre secteur</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Enregistrer l'usine</button>
+
+                    <div class="login-link" style="margin-top: 1rem;">
+                        <p>Prêt à saisir ? <a href="saisie.html">Aller à la saisie</a></p>
+                    </div>
+                </form>
+
+                <div class="info-panel">
+                    <h3>Comment ça marche ?</h3>
+                    <ul class="feature-list">
+                        <li>Enregistrez chacune de vos usines ici</li>
+                        <li>Elles apparaîtront dans le menu déroulant de saisie</li>
+                        <li>Chaque usine est liée à votre compte uniquement</li>
+                        <li>Vous pouvez en créer autant que nécessaire</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+            </div>
+        </div>
+        <p>© 2026 Main Visible. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/nouvelle_usine.js"></script>
+    <script src="../js/menu.js"></script>
+</body>
+</html>

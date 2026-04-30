@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Système de Gestion Logistique</title>
+    <link rel="stylesheet" href="../css/style.css"></head>
+<body>
+
+    <!-- En-tête principal -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+
+            <div class="header-actions">
+                <nav class="primary-nav">
+                    <a href="valeurs.html">Nos Valeurs</a>
+                    <a href="enregistrement.html">Enregistrement</a>
+                    <a href="#documentation">Documentation</a>
+                </nav>
+                <div class="auth-section">
+                    <a href="connexion.html" class="btn-login">Connexion</a>
+                </div>
+            </div>
+
+            <!-- Hamburger — visible on tablet / mobile -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile nav drawer -->
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="valeurs.html">Nos Valeurs</a>
+        <a href="enregistrement.html">Enregistrement</a>
+        <a href="#documentation">Documentation</a>
+        <div class="mobile-nav-auth">
+            <a href="connexion.html" class="btn-login">Connexion</a>
+        </div>
+    </nav>
+
+    <!-- Barre de statut système -->
+    <nav class="main-navigation">
+        <div class="nav-container">
+            <div class="system-status">
+                <span class="status-indicator online"></span>
+                <span class="status-text">Système: <strong>OPÉRATIONNEL</strong></span>
+                <span class="status-update">Dernière mise à jour: <time datetime="2026-01-15T14:30:00">15/01/2026 14:30</time></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Visualisez. Optimisez. Contrôlez.</h2>
+                <p class="hero-description">
+                    Main Visible transforme la gestion logistique grâce à une visualisation en temps réel
+                    de toute votre chaîne d'approvisionnement. Inspiré des principes cybernétiques du
+                    Projet Cybersyn, notre système offre un contrôle démocratique et une transparence totale.
+                </p>
+            </div>
+        </section>
+
+        <section class="principles">
+            <h2>Principes Fondateurs</h2>
+            <div class="principles-grid">
+                <article class="principle-card">
+                    <h3>Rétroaction en Temps Réel</h3>
+                    <p>Le système s'adapte dynamiquement aux changements grâce à des boucles de rétroaction continues entre tous les points du réseau.</p>
+                </article>
+                <article class="principle-card">
+                    <h3>Optimisation Collective</h3>
+                    <p>L'optimisation ne se fait pas par silo mais par la coordination de l'ensemble du système pour maximiser l'efficacité globale.</p>
+                </article>
+                <article class="principle-card">
+                    <h3>Décision Distribuée</h3>
+                    <p>Les décisions opérationnelles sont prises au niveau le plus approprié, soutenues par une intelligence systémique partagée.</p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+                <p class="footer-tagline">"Pour une logistique démocratique et transparente"</p>
+            </div>
+            <div class="footer-section" id="documentation">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="#guide">Guide d'Implémentation</a></li>
+                    <li><a href="#api">API &amp; Intégrations</a></li>
+                    <li><a href="#cas-utilisation">Cas d'Utilisation</a></li>
+                    <li><a href="#cybersin">Héritage Cybersyn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <address>
+                    <p>Main Visible SAS<br>123 Rue de la Logistique<br>75000 Paris, France</p>
+                    <p>Email: <a href="mailto:contact@mainvisible.fr">contact@mainvisible.fr</a></p>
+                    <p>Tél: <a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
+                </address>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Main Visible. Tous droits réservés.</p>
+            <nav class="footer-links">
+                <a href="#confidentialite">Confidentialité</a>
+                <a href="#conditions">Conditions d'utilisation</a>
+                <a href="#accessibilite">Accessibilité</a>
+                <a href="#opensource">Code Open Source</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            var toggle = document.getElementById('menu-toggle');
+            var nav    = document.getElementById('mobile-nav');
+            if (!toggle || !nav) return;
+            toggle.addEventListener('click', function () {
+                var open = toggle.classList.toggle('is-open');
+                nav.classList.toggle('is-open', open);
+                toggle.setAttribute('aria-expanded', open);
+                nav.setAttribute('aria-hidden', !open);
+                document.body.style.overflow = open ? 'hidden' : '';
+            });
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    toggle.classList.remove('is-open');
+                    nav.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    nav.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+                    toggle.classList.remove('is-open');
+                    nav.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    nav.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    toggle.focus();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

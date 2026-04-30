@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Analyse des données</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .analyse-layout {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-8) var(--space-9);
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: var(--space-6);
+            align-items: start;
+        }
+
+        /* Filter sidebar */
+        .filter-panel {
+            background: var(--bg-white);
+            border: var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: calc(var(--header-h) + 16px);
+        }
+
+        .filter-panel h3 {
+            font-family: var(--font-display);
+            font-size: .875rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -.01em;
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-3);
+            border-bottom: var(--border);
+        }
+
+        .filter-section {
+            margin-bottom: var(--space-5);
+        }
+
+        .filter-section label {
+            font-family: var(--font-display);
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--gray-600);
+            display: block;
+            margin-bottom: var(--space-2);
+        }
+
+        .usine-filter-list {
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: var(--space-2);
+        }
+
+        .usine-filter-list label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-family: var(--font-body);
+            font-size: .8125rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--gray-700);
+            padding: 4px var(--space-2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--dur-fast) var(--ease);
+        }
+
+        .usine-filter-list label:hover { background: var(--blue-50); }
+
+        .usine-filter-list input[type="checkbox"] {
+            width: 14px; height: 14px;
+            accent-color: var(--blue-700);
+            flex-shrink: 0;
+        }
+
+        .usine-tag {
+            font-family: var(--font-mono);
+            font-size: .6rem;
+            padding: 1px 5px;
+            border-radius: 20px;
+            background: var(--blue-50);
+            color: var(--blue-700);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .filter-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            margin-top: var(--space-5);
+        }
+
+        .btn-filtrer {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: var(--blue-800);
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: .8125rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--dur-fast) var(--ease);
+        }
+
+        .btn-filtrer:hover { background: var(--blue-400); }
+
+        .btn-reset {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: var(--gray-600);
+            font-family: var(--font-display);
+            font-size: .8125rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease);
+        }
+
+        .btn-reset:hover {
+            border-color: var(--gray-400);
+            color: var(--gray-800);
+        }
+
+        /* Main content */
+        .analyse-content { min-width: 0; }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .kpi-card {
+            background: var(--bg-white);
+            border: var(--border);
+            border-top: 3px solid var(--blue-700);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+        }
+
+        .kpi-card h4 {
+            font-family: var(--font-display);
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: var(--space-2);
+        }
+
+        .kpi-card p {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -.02em;
+        }
+
+        .chart-card {
+            background: var(--bg-white);
+            border: var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-6);
+        }
+
+        .chart-card h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-4);
+            border-bottom: var(--border);
+        }
+
+        #loading {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: .8rem;
+            color: var(--gray-400);
+            padding: var(--space-6);
+            display: none;
+        }
+
+        #no-data {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: .8rem;
+            color: var(--gray-400);
+            padding: var(--space-6);
+            display: none;
+        }
+
+        /* Anomaly table */
+        .anomaly-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .875rem;
+        }
+
+        .anomaly-table th {
+            font-family: var(--font-display);
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            text-align: left;
+            padding: var(--space-3) var(--space-4);
+            border-bottom: var(--border);
+        }
+
+        .anomaly-table td {
+            font-family: var(--font-body);
+            font-size: .875rem;
+            color: var(--gray-700);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .anomaly-table tr:last-child td { border-bottom: none; }
+        .anomaly-table tr:hover td { background: var(--gray-50); }
+
+        @media (max-width: 1024px) {
+            .analyse-layout {
+                grid-template-columns: 1fr;
+                padding: 0 var(--space-5) var(--space-7);
+            }
+            .filter-panel { position: static; }
+            .kpi-row { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+            <div class="header-actions">
+                <nav class="primary-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="saisie.html">Saisie</a>
+                    <a href="analyse.html">Analyse</a>
+                </nav>
+                <div class="auth-section">
+                    <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="index.html">Accueil</a>
+        <a href="saisie.html">Saisie</a>
+        <a href="analyse.html">Analyse</a>
+        <div class="mobile-nav-auth">
+            <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+        </div>
+    </nav>
+
+    <nav class="main-navigation">
+        <div class="nav-container">
+            <div class="system-status">
+                <span class="status-indicator online"></span>
+                <span class="status-text">Analyse : <strong>EN LIGNE</strong></span>
+                <span class="status-update">Données en temps réel</span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Tableau de bord analytique</h2>
+                <p class="hero-description">
+                    Visualisez les flux de production, détectez les anomalies
+                    et analysez les tendances à travers l'ensemble du réseau.
+                </p>
+            </div>
+        </section>
+
+        <div class="analyse-layout">
+
+            <!-- Filter sidebar -->
+            <aside class="filter-panel">
+                <h3>🔍 Filtres</h3>
+
+                <div class="filter-section">
+                    <label>Produit</label>
+                    <select id="filtre-produit">
+                        <option value="">Tous les produits</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label>Période</label>
+                    <div style="display:flex; flex-direction:column; gap: var(--space-2);">
+                        <input type="date" id="date-debut">
+                        <input type="date" id="date-fin">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label>Usines</label>
+                    <div class="usine-filter-list" id="filtre-usines">
+                        <span style="font-family:var(--font-mono);font-size:.7rem;color:var(--gray-400);">
+                            Chargement...
+                        </span>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="btn-filtrer" id="btn-filtrer">Appliquer</button>
+                    <button class="btn-reset"   id="btn-reset">Réinitialiser</button>
+                </div>
+            </aside>
+
+            <!-- Main content -->
+            <div class="analyse-content">
+
+                <!-- KPIs -->
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <h4>Production totale</h4>
+                        <p id="stat-total">—</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h4>Moyenne journalière</h4>
+                        <p id="stat-moyenne">—</p>
+                    </div>
+                    <div class="kpi-card">
+                        <h4>Anomalies détectées</h4>
+                        <p id="stat-anomalies">—</p>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="chart-card">
+                    <h3>Évolution de la production</h3>
+                    <div id="loading">Chargement des données...</div>
+                    <div id="no-data">Aucune donnée pour ces filtres.</div>
+                    <canvas id="graphPrincipal"></canvas>
+                </div>
+
+                <!-- Anomalies -->
+                <div class="chart-card">
+                    <h3>Anomalies détectées</h3>
+                    <p style="font-size:.875rem; color:var(--gray-500); margin-bottom:var(--space-4);">
+                        Une anomalie correspond à un écart supérieur à 50% par rapport à la moyenne de la sélection.
+                    </p>
+                    <table class="anomaly-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Usine</th>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Écart</th>
+                            </tr>
+                        </thead>
+                        <tbody id="anomalies-body">
+                            <tr><td colspan="5">Chargement...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+                <p class="footer-tagline">"Pour une logistique démocratique et transparente"</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="saisie.html">Saisie de données</a></li>
+                    <li><a href="analyse.html">Analyse</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <address>
+                    <p>Main Visible SAS<br>123 Rue de la Logistique<br>75000 Paris, France</p>
+                    <p>Email: <a href="mailto:contact@mainvisible.fr">contact@mainvisible.fr</a></p>
+                </address>
+            </div>
+        </div>
+        <p>© 2026 Main Visible. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/analyse.js"></script>
+    <script src="../js/menu.js"></script>
+</body>
+</html>

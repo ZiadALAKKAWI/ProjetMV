@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Connexion</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+            <div class="auth-section">
+                <a href="index.html" class="btn-register">Accueil</a>
+                <a href="enregistrement.html" class="btn-register">S'inscrire</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="login-card">
+                <h2>Connexion</h2>
+
+                <div id="msg-success" style="display:none; color: green; margin-bottom: 1rem; font-size: .9rem;">
+                    Compte créé avec succès. Vous pouvez vous connecter.
+                </div>
+
+                <div id="msg-error" style="display:none; color: red; margin-bottom: 1rem; font-size: .9rem;">
+                </div>
+
+                <form action="../php/login.php" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required
+                               placeholder="contact@votre-entreprise.fr">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Se connecter</button>
+                </form>
+
+                <div class="login-link" style="margin-top: 1rem;">
+                    <p>Pas encore de compte ? <a href="enregistrement.html">S'inscrire</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+            </div>
+        </div>
+        <p>© 2026 Main Visible. Tous droits réservés.</p>
+    </footer>
+    <script src="../js/connexion.js"></script>
+
+</body>
+</html>

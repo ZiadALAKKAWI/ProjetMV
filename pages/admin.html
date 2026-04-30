@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Administration</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sim-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-6);
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-8) var(--space-9);
+        }
+
+        .sim-panel {
+            background: var(--bg-white);
+            border: var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sim-panel h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -.01em;
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-4);
+            border-bottom: var(--border);
+        }
+
+        /* Usine checkboxes */
+        .usine-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .usine-list label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-family: var(--font-body);
+            font-size: .9rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--gray-700);
+            padding: var(--space-2) var(--space-2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--dur-fast) var(--ease);
+        }
+
+        .usine-list label:hover { background: var(--blue-50); }
+
+        .usine-list input[type="checkbox"] {
+            width: 16px; height: 16px;
+            accent-color: var(--blue-700);
+            flex-shrink: 0;
+        }
+
+        .usine-tag {
+            font-family: var(--font-mono);
+            font-size: .6rem;
+            padding: 1px 6px;
+            border-radius: 20px;
+            background: var(--blue-50);
+            color: var(--blue-700);
+            margin-left: auto;
+        }
+
+        .select-all-row {
+            display: flex;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .btn-select {
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--blue-700);
+            background: none;
+            border: 1px solid var(--blue-100);
+            border-radius: var(--radius-sm);
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease);
+        }
+
+        .btn-select:hover {
+            background: var(--blue-50);
+            border-color: var(--blue-700);
+        }
+
+        /* Product input with suggestions */
+        .product-wrapper {
+            position: relative;
+        }
+
+        .product-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-2);
+        }
+
+        .suggestion-chip {
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: all var(--dur-fast) var(--ease);
+        }
+
+        .suggestion-chip:hover {
+            background: var(--blue-50);
+            color: var(--blue-700);
+            border-color: var(--blue-200);
+        }
+
+        /* Journal */
+        .journal-wrap {
+            position: relative;
+        }
+
+        #journal {
+            font-family: var(--font-mono);
+            font-size: .8rem;
+            height: 360px;
+            overflow-y: scroll;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            line-height: 1.7;
+        }
+
+        #journal .log-info    { color: #58a6ff; }
+        #journal .log-success { color: #3fb950; }
+        #journal .log-warning { color: #d29922; }
+        #journal .log-error   { color: #f85149; }
+        #journal .log-muted   { color: #6e7681; }
+        #journal .log-summary {
+            border-top: 1px solid #30363d;
+            margin-top: 8px;
+            padding-top: 8px;
+            color: #e6edf3;
+        }
+
+        /* Progress bar */
+        .progress-wrap {
+            margin-top: var(--space-3);
+            display: none;
+        }
+
+        .progress-wrap.visible { display: block; }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--blue-700);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.2s var(--ease);
+        }
+
+        .progress-label {
+            font-family: var(--font-mono);
+            font-size: .7rem;
+            color: var(--gray-500);
+            margin-top: var(--space-2);
+            text-align: right;
+        }
+
+        /* Action buttons */
+        .action-row {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-5);
+        }
+
+        .btn-danger {
+            display: block;
+            padding: 14px var(--space-6);
+            background: #dc2626;
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: .9375rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .sim-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Panneau d'administration</p>
+            </div>
+            <div class="header-actions">
+                <nav class="primary-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="analyse.html">Analyse</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="saisie.html">Saisie</a>
+                    <a href="nouvelle_usine.html">Mes Usines</a>
+                </nav>
+                <div class="auth-section">
+                    <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="index.html">Accueil</a>
+        <a href="analyse.html">Analyse</a>
+        <a href="admin.html">Admin</a>
+        <a href="saisie.html">Saisie</a>
+        <a href="nouvelle_usine.html">Mes Usines</a>
+        <div class="mobile-nav-auth">
+            <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+        </div>
+    </nav>
+
+    <nav class="main-navigation">
+        <div class="nav-container">
+            <div class="system-status">
+                <span class="status-indicator online"></span>
+                <span class="status-text">Admin: <strong>EN LIGNE</strong></span>
+                <span class="status-update">Mode simulation activé</span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Simulation de production</h2>
+                <p class="hero-description">
+                    Générez des données simulées en masse pour tester et alimenter 
+                    le tableau de bord analytique.
+                </p>
+            </div>
+        </section>
+
+        <div class="sim-layout">
+
+            <!-- LEFT: Parameters -->
+            <div class="sim-panel">
+                <h3>⚙️ Paramètres de simulation</h3>
+
+                <!-- Usine selection -->
+                <div class="form-group">
+                    <label>Usines à simuler</label>
+                    <div class="select-all-row">
+                        <button class="btn-select" onclick="selectAll()">Tout sélectionner</button>
+                        <button class="btn-select" onclick="deselectAll()">Tout désélectionner</button>
+                    </div>
+                    <div class="usine-list" id="usine-list">
+                        <span style="font-family: var(--font-mono); font-size: .75rem; color: var(--gray-400);">
+                            Chargement des usines...
+                        </span>
+                    </div>
+                    <p id="usine-count" style="font-family: var(--font-mono); font-size: .7rem; color: var(--gray-500); margin-top: 4px;">
+                        0 usine sélectionnée
+                    </p>
+                </div>
+
+                <!-- Product -->
+                <div class="form-group">
+                    <label for="produit">Type de produit</label>
+                    <div class="product-wrapper">
+                        <input type="text" id="produit" placeholder="Ex: Acier brut">
+                    </div>
+                    <div class="product-suggestions" id="suggestions"></div>
+                </div>
+
+                <!-- Date range -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date-debut">Date de début</label>
+                        <input type="date" id="date-debut">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-fin">Date de fin</label>
+                        <input type="date" id="date-fin">
+                    </div>
+                </div>
+
+                <!-- Production params -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="moy-prod">Production moyenne (tonnes/jour)</label>
+                        <input type="number" id="moy-prod" value="100" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="variance">Variance</label>
+                        <input type="number" id="variance" value="20" min="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="freq-pannes">Fréquence pannes (0–1)</label>
+                        <input type="number" id="freq-pannes" value="0.03" step="0.01" min="0" max="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="freq-pics">Fréquence pics (0–1)</label>
+                        <input type="number" id="freq-pics" value="0.02" step="0.01" min="0" max="1">
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-submit" style="flex:1;" onclick="lancerSimulation()">
+                        🚀 Lancer la simulation
+                    </button>
+                    <button class="btn-danger" onclick="confirmerSuppression()">
+                        🗑️ Vider la base
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT: Journal -->
+            <div class="sim-panel">
+                <h3>📋 Journal en direct</h3>
+
+                <div class="journal-wrap">
+                    <div id="journal">
+                        <span class="log-muted">En attente de simulation...</span>
+                    </div>
+
+                    <div class="progress-wrap" id="progress-wrap">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar"></div>
+                        </div>
+                        <div class="progress-label" id="progress-label">0%</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Panneau d'administration</p>
+            </div>
+        </div>
+        <p>© 2026 Main Visible. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../js/simulation.js"></script>
+    <script src="../js/menu.js"></script>
+</body>
+</html>

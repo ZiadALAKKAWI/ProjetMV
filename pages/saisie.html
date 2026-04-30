@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Saisie de données</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- Même header que tes autres pages -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+            <div class="header-actions">
+                <nav class="primary-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="valeurs.html">Nos Valeurs</a>
+                    <a href="saisie.html">Saisie</a>
+                </nav>
+                <div class="auth-section">
+                    <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="../pages/saisie.html">Saisie</a>
+        <a href="../pages/valeurs.html">Valeurs</a>
+        <a href="../pages/index.html">Acceuil</a>
+        <div class="mobile-nav-auth">
+            <a href="../php/logout.php" class="btn-login">Déconnexion</a>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main>
+        <section class="registration-section">
+
+            <div class="registration-header">
+                <h2>Saisie de production journalière</h2>
+                <p>Transmettez vos données de production au système central.</p>
+            </div>
+
+            <div class="registration-container">
+
+                <!-- Le formulaire -->
+                <form class="registration-form" action="../php/insert_data.php" method="POST">
+
+                    <h3>Nouvelle entrée</h3>
+
+                    <div class="form-group">
+                        <label for="usine_id">Votre usine</label>
+                        <select id="usine_id" name="usine_id" required>
+                            <option value="">Chargement des usines...</option>
+                        </select>
+                        <p style="margin-top: 6px; font-size: .8rem; color: var(--gray-500);">
+                            Usine non listée ? <a href="nouvelle_usine.html">Enregistrez-la ici</a>
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="produit">Produit</label>
+                        <input type="text" id="produit" name="produit" 
+                               placeholder="Ex: Acier brut" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantite">Quantité produite</label>
+                            <input type="number" id="quantite" name="quantite" 
+                                   step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unite">Unité</label>
+                            <select id="unite" name="unite">
+                                <option>tonnes</option>
+                                <option>unités</option>
+                                <option>litres</option>
+                                <option>kWh</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date_prod">Date de production</label>
+                        <input type="date" id="date_prod" name="date_prod" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Envoyer au système
+                    </button>
+
+                </form>
+
+                <!-- Panneau d'info à droite, comme sur enregistrement.html -->
+                <div class="info-panel">
+                    <h3>Comment ça marche ?</h3>
+                    <ul class="feature-list">
+                        <li>Remplissez le formulaire chaque jour</li>
+                        <li>Les données sont transmises en temps réel</li>
+                        <li>Les analystes peuvent les consulter immédiatement</li>
+                        <li>Les anomalies sont détectées automatiquement</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Même footer que tes autres pages -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+                <p class="footer-tagline">"Pour une logistique démocratique et transparente"</p>
+            </div>
+        </div>
+        <p>© 2026 Main Visible. Tous droits réservés.</p>
+    </footer>
+    <script src="../js/menu.js"></script>
+    <script src="../js/saisie.js"></script>
+</body>
+</html>

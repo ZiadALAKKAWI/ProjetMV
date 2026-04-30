@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Enregistrement</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Système de Gestion et Planification Logistique</p>
+            </div>
+            <div class="auth-section">
+                <a href="index.html" class="btn-register">Accueil</a>
+                <a href="connexion.html" class="btn-login">Connexion</a>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="index.html">Accueil</a>
+        <a href="valeurs.html">Nos Valeurs</a>
+        <a href="#documentation">Documentation</a>
+        <div class="mobile-nav-auth">
+            <a href="connexion.html" class="btn-login">Connexion</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="registration-section">
+            <div class="registration-header">
+                <h2>Rejoignez Main Visible</h2>
+                <p>Inscrivez-vous pour accéder au système de gestion logistique cybernétique le plus avancé au monde.</p>
+            </div>
+
+            <div class="registration-container">
+                <form class="registration-form" id="registration-form" action="../php/register.php" method="POST">
+                    <h3>Créer votre compte</h3>
+
+                    <div class="form-group">
+                        <label for="entreprise">Nom de l'entreprise</label>
+                        <input type="text" id="entreprise" name="entreprise" required placeholder="Ex: Transport Express SARL">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prenom">Prénom</label>
+                            <input type="text" id="prenom" name="prenom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input type="text" id="nom" name="nom" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email professionnel</label>
+                        <input type="email" id="email" name="email" required placeholder="contact@votre-entreprise.fr">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirmer le mot de passe</label>
+                            <input type="password" id="confirm-password" name="confirm-password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="secteur">Secteur d'activité</label>
+                        <select id="secteur" name="secteur" required>
+                            <option value="">Sélectionnez votre secteur</option>
+                            <option value="transport">Transport et Logistique</option>
+                            <option value="production">Production Industrielle</option>
+                            <option value="distribution">Distribution et Retail</option>
+                            <option value="pharmacie">Pharmacie et Santé</option>
+                            <option value="agroalimentaire">Agroalimentaire</option>
+                            <option value="energie">Énergie et Utilities</option>
+                            <option value="autre">Autre secteur</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taille-entreprise">Taille de l'entreprise</label>
+                        <select id="taille-entreprise" name="taille_entreprise" required>
+                            <option value="">Sélectionnez la taille</option>
+                            <option value="micro">Micro-entreprise (1-9)</option>
+                            <option value="petite">Petite entreprise (10-49)</option>
+                            <option value="moyenne">Moyenne entreprise (50-249)</option>
+                            <option value="grande">Grande entreprise (250+)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="conditions" name="conditions" required>
+                        <label for="conditions">J'accepte les <a href="#conditions-utilisation">Conditions d'utilisation</a> et la <a href="#politique-confidentialite">Politique de confidentialité</a></label>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Je souhaite recevoir des informations sur les mises à jour du système et les nouvelles fonctionnalités</label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Créer mon compte</button>
+
+                    <div class="login-link">
+                        <p>Déjà inscrit ? <a href="connexion.html">Connectez-vous ici</a></p>
+                    </div>
+                </form>
+
+                <div class="info-panel">
+                    <h3>Pourquoi rejoindre Main Visible ?</h3>
+                    <ul class="feature-list">
+                        <li>Facilitation d'intervention étatique en cas de crise</li>
+                        <li>Détection automatique et prévention des anomalies et goulets d'étranglement</li>
+                        <li>Optimisation logistique des flux de marchandises</li>
+                        <li>Incentivisation fiscale</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Main Visible</h3>
+                <p>Système de Gestion Logistique</p>
+                <p class="footer-tagline">"Pour une logistique démocratique et transparente"</p>
+            </div>
+            <div class="footer-section">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="index.html#guide">Guide d'Implémentation</a></li>
+                    <li><a href="index.html#api">API &amp; Intégrations</a></li>
+                    <li><a href="index.html#cas-utilisation">Cas d'Utilisation</a></li>
+                    <li><a href="index.html#cybersin">Héritage Cybersyn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <address>
+                    <p>Main Visible SAS<br>123 Rue de la Logistique<br>75000 Paris, France</p>
+                    <p>Email: <a href="mailto:contact@mainvisible.fr">contact@mainvisible.fr</a></p>
+                    <p>Tél: <a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
+                </address>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Main Visible. Tous droits réservés.</p>
+            <nav class="footer-links">
+                <a href="#confidentialite">Confidentialité</a>
+                <a href="#conditions">Conditions d'utilisation</a>
+                <a href="#accessibilite">Accessibilité</a>
+                <a href="#opensource">Code Open Source</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="../js/enregistrement.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Visible - Nos Valeurs</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <h1>Main Visible</h1>
+                <p class="tagline">Institution publique de supervision logistique</p>
+            </div>
+            <nav class="primary-nav">
+                <a href="index.html">Accueil</a>
+                <a href="enregistrement.html">Enregistrement</a>
+                <a href="#documentation">Documentation</a>
+            </nav>
+            <div class="auth-section">
+                <a href="connexion.html" class="btn-login">Connexion</a>
+            </div>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+        <a href="index.html">Accueil</a>
+        <a href="enregistrement.html">Enregistrement</a>
+        <a href="#documentation">Documentation</a>
+        <div class="mobile-nav-auth">
+            <a href="connexion.html" class="btn-login">Connexion</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <section class="intro">
+            <h2>Nos Valeurs</h2>
+            <p>
+                Main Visible est une institution publique dédiée à la surveillance des marchés,
+                des chaînes de production et des flux logistiques. Sa mission est d'anticiper
+                les crises, de réduire les inefficacités économiques et de protéger l'intérêt
+                collectif à travers l'analyse en temps réel des données.
+            </p>
+        </section>
+
+        <section class="values-grid">
+
+            <article>
+                <h3>Service du Bien Commun</h3>
+                <p>
+                    Toutes les actions du système sont orientées vers la stabilité économique,
+                    la protection des populations et l'accès équitable aux ressources essentielles.
+                    L'objectif premier est d'assurer le fonctionnement harmonieux de la société.
+                </p>
+            </article>
+
+            <article>
+                <h3>Surveillance Responsable</h3>
+                <p>
+                    La supervision des marchés et des industries permet d'identifier rapidement
+                    les déséquilibres : pénuries, surproductions ou ruptures logistiques. Cette
+                    observation continue vise à prévenir les crises avant qu'elles n'affectent
+                    la population.
+                </p>
+            </article>
+
+            <article>
+                <h3>Prévention des Crises</h3>
+                <p>
+                    Grâce à l'analyse statistique et à la détection d'anomalies, Main Visible
+                    anticipe les situations critiques et facilite la préparation des réponses
+                    adaptées : redistribution, ajustement de production ou coordination nationale.
+                </p>
+            </article>
+
+            <article>
+                <h3>Stabilisation des Marchés</h3>
+                <p>
+                    Les inefficacités structurelles des marchés peuvent générer des excédents,
+                    des pénuries ou des fluctuations brutales. Le système agit comme un outil
+                    d'observation et d'aide à la décision pour maintenir un équilibre durable
+                    entre production, distribution et consommation.
+                </p>
+            </article>
+
+            <article>
+                <h3>Transparence Publique</h3>
+                <p>
+                    L'accès aux indicateurs économiques et logistiques permet une meilleure
+                    compréhension des dynamiques collectives. La diffusion d'informations
+                    fiables renforce la confiance et soutient des décisions éclairées.
+                </p>
+            </article>
+
+            <article>
+                <h3>Coordination Collective</h3>
+                <p>
+                    Inspiré des principes cybernétiques, Main Visible connecte les différents
+                    acteurs économiques afin de faciliter une coordination à grande échelle,
+                    fondée sur des données objectives et actualisées en continu.
+                </p>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Main Visible — Institution publique de supervision logistique et économique</p>
+    </footer>
+
+    <script>
+        (function () {
+            var toggle = document.getElementById('menu-toggle');
+            var nav    = document.getElementById('mobile-nav');
+            if (!toggle || !nav) return;
+            toggle.addEventListener('click', function () {
+                var open = toggle.classList.toggle('is-open');
+                nav.classList.toggle('is-open', open);
+                toggle.setAttribute('aria-expanded', open);
+                nav.setAttribute('aria-hidden', !open);
+                document.body.style.overflow = open ? 'hidden' : '';
+            });
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    toggle.classList.remove('is-open');
+                    nav.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    nav.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+                    toggle.classList.remove('is-open');
+                    nav.classList.remove('is-open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    nav.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    toggle.focus();
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>
